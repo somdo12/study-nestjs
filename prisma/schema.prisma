@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Model สำหรับ Collection 'Product' ใน MongoDB
+model Product {
+  // 1. ฟิลด์ ID: ใช้ ObjectId สำหรับ MongoDB
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  // 2. ข้อมูลสินค้า
+  name        String   @unique // ชื่อสินค้าต้องไม่ซ้ำกัน
+  description String?  // เครื่องหมาย ? หมายความว่าฟิลด์นี้เป็น Optional (null ได้)
+  price       Float    // ราคาสินค้า
+  stock       Int      // จำนวนสินค้าในคลัง
+  
+  // 3. เวลา
+  createdAt   DateTime @default(now()) // เวลาที่สร้าง ถูกกำหนดอัตโนมัติ
+  updatedAt   DateTime @updatedAt      // เวลาที่อัปเดต ถูกกำหนดอัตโนมัติ
+}
