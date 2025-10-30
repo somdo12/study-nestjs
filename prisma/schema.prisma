@@ -21,11 +21,27 @@ model Product {
   
   // 2. ข้อมูลสินค้า
   name        String   @unique // ชื่อสินค้าต้องไม่ซ้ำกัน
-  description String?  // เครื่องหมาย ? หมายความว่าฟิลด์นี้เป็น Optional (null ได้)
-  price       Float    // ราคาสินค้า
-  stock       Int      // จำนวนสินค้าในคลัง
+  description String?  
+  price       Float    
+  stock       Int     
   
   // 3. เวลา
-  createdAt   DateTime @default(now()) // เวลาที่สร้าง ถูกกำหนดอัตโนมัติ
-  updatedAt   DateTime @updatedAt      // เวลาที่อัปเดต ถูกกำหนดอัตโนมัติ
+  createdAt   DateTime @default(now()) 
+  updatedAt   DateTime @updatedAt     
+}
+
+enum Role {
+  USER
+  ADMIN
+  EDITOR
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  password    String   
+  name        String?  
+  role        Role     @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
