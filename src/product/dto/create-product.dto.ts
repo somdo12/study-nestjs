@@ -2,11 +2,11 @@
 import { IsString, IsOptional, IsNumber, IsInt, Min } from 'class-validator';
 //validtion Product
 export class CreateProductDto {
-    @IsString()
+    @IsString({message : 'description must be is string'})
     name: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({message :'description must be is string'})
     description?: string;
 
     @IsNumber({},{ message:'price must be in numbers only.'})

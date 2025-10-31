@@ -1,8 +1,7 @@
 // src/product/product.service.ts
-import { Injectable, ConflictException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+import { Injectable, } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Prisma } from '@prisma/client'
 
 
 @Injectable()
