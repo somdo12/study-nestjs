@@ -1,4 +1,4 @@
-// src/prisma/prisma.module.ts
+// src/prisma/prisma.module.ts ໄຟລຈັດການ PrismaService export ໃຫ້ modules ອື່ນໃຊ້
 import { Module,Global } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
