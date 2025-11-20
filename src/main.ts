@@ -15,7 +15,12 @@ async function bootstrap() {
     const uploadDir = './uploads/images';
     if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
+        console.log('Created upload/image folder');
     }
+    app.enableCors({
+        origin: '*',  // อนุญาตทุก origin (สำหรับ dev)
+        credentials: true,
+    });
 
     app.useStaticAssets(join(__dirname, '..', 'uploads'), {
         prefix: '/uploads/',

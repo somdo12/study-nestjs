@@ -24,6 +24,9 @@ model Product {
   description String?  
   price       Float    
   stock       Int     
+
+  image       String?  // รูปเดียว
+  images      String[] // หลายรูป
   
   // 3. เวลา
   createdAt   DateTime @default(now()) 

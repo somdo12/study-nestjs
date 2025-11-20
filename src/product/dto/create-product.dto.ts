@@ -1,36 +1,9 @@
-// // dto/create-product.dto.ts
-// import { IsString, IsOptional, IsNumber, IsInt, Min } from 'class-validator';
-// import { ApiProperty } from '@nestjs/swagger';
-// //validtion Product
-// export class CreateProductDto {
-//     @ApiProperty({
-//         description: 'Name for create product must be is string ',
-//         example: '"beer laos"',
-//     })
-//     @IsString({ message: 'description must be is string' })
-//     name: string;
-
-//     @IsOptional()
-//     @IsString({ message: 'description must be is string' })
-//     description?: string;
-
-//     @IsNumber({}, { message: 'price must be in numbers only.' })
-//     price: number;
-
-//     @IsInt()
-//     @Min(0, { message: "The stock quantity must not be less than 0." })
-//     stock: number;
-// }
-// dto/create-product.dto.ts (สมบูรณ์ขึ้น)
-
-import { IsString, IsOptional, IsNumber, IsInt, Min, IsNotEmpty } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsInt, Min, IsNotEmpty, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type, Transform } from 'class-transformer';
 
 export class CreateProductDto {
-    @ApiProperty({
-        description: 'ชื่อผลิตภัณฑ์',
-        // example: 'Beer Lao Original',
-    })
+    @ApiProperty({ description: 'ชื่อผลิตภัณฑ์', })
     @IsNotEmpty({ message: 'Name must not be empty.' }) // เพิ่ม: ห้ามว่าง
     @IsString({ message: 'Name must be a string.' })
     name: string;
@@ -49,6 +22,7 @@ export class CreateProductDto {
     })
     @IsNotEmpty({ message: 'Price must not be empty.' }) // เพิ่ม: ห้ามว่าง
     @IsNumber({}, { message: 'Price must be a number.' })
+    @Type(() => Number)
     price: number;
 
     @ApiProperty({
@@ -59,5 +33,20 @@ export class CreateProductDto {
     @IsNotEmpty({ message: 'Stock must not be empty.' }) // เพิ่ม: ห้ามว่าง
     @IsInt()
     @Min(0, { message: "The stock quantity must not be less than 0." })
+    @Type(() => Number)
     stock: number;
+
+    @ApiProperty({ example: 'image-123456.jpg', required: false })
+    @IsString()
+    @IsOptional()
+    image?: string;
+
+    @ApiProperty({
+        example: ['image-1.jpg', 'image-2.jpg'],
+        required: false,
+        type: [String]
+    })
+    @IsArray()
+    @IsOptional()
+    images?: string[];
 }

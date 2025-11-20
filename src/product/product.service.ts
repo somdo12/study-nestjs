@@ -20,17 +20,60 @@ export class ProductService {
             where: { id }
         });
     }
-
-    async update(id: string, data: CreateProductDto) {
-        return this.prisma.product.update({
+    // product.service.ts
+    async update(id: string, updateData: Partial<CreateProductDto>) {
+        await this.findOne(id);
+        return await this.prisma.product.update({
             where: { id },
-            data,
+            data: updateData,
         });
     }
+
+    // async update(
+    //     id: string,
+    //     data: CreateProductDto,
+    //     imageFile?: Express.Multer.File 
+    // ) {
+    //     const updateData: any = {
+    //         ...data,
+    //         price: Number(data.price),
+    //         stock: Number(data.stock),
+    //     };
+    //     if (imageFile) {
+    //         const imageUrl = `/uploads/${imageFile.filename}`; 
+    //         updateData.image = imageUrl;
+    //     }
+    //     return this.prisma.product.update({
+    //         where: { id },
+    //         data: updateData, 
+    //     });
+    // }
 
     async deleteProduct(id: string) {
         return this.prisma.product.delete({
             where: { id },
+        });
+    }
+    async addImage(productId: string, imageFilename: string) {
+        const product = await this.findOne(productId);
+
+        return await this.prisma.product.update({
+            where: { id: productId },
+            data: {
+                images: {
+                    push: imageFilename, // เพิ่มรูปเข้า array
+                },
+            },
+        });
+    }
+
+    // ตั้งรูปหลัก
+    async setMainImage(productId: string, imageFilename: string) {
+        return await this.prisma.product.update({
+            where: { id: productId },
+            data: {
+                image: imageFilename,
+            },
         });
     }
 

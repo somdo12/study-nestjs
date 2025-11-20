@@ -5,9 +5,16 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './resources/upload/upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 10 }]),
     PrismaModule,
     ProductModule,
