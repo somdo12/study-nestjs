@@ -9,7 +9,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { WinstonLoggerService } from './common/logger/winston-logger.service'; // นำเข้า Service ที่สร้าง
 
 async function bootstrap() {
-    // 1. ตั้งค่า Global Logger (Winston) ที่นี่!
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     const uploadDir = './uploads/images';
@@ -18,7 +17,7 @@ async function bootstrap() {
         console.log('Created upload/image folder');
     }
     app.enableCors({
-        origin: '*',  // อนุญาตทุก origin (สำหรับ dev)
+        origin: '*', 
         credentials: true,
     });
 
@@ -26,30 +25,27 @@ async function bootstrap() {
         prefix: '/uploads/',
     });
 
-    // 2. ตั้งค่า Global ValidationPipe (ไม่มี 'logger' property)
     app.useGlobalPipes(new ValidationPipe({
-        // ปรับการตั้งค่าเพิ่มเติม
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
-        // ลบ property 'logger: new WinstonLoggerService()' ออกจากที่นี่
     }));
 
     // 3. ตั้งค่า Swagger
     const config = new DocumentBuilder()
-        .setTitle('My Awesome NestJS API') // ชื่อ API ของคุณ
-        .setDescription('API documentation for Auth and Product modules.') // คำอธิบาย
+        .setTitle('My Awesome NestJS API') 
+        .setDescription('API documentation for Auth and Product modules.') 
         .setVersion('1.0')
-        // ไม่ได้เปิดใช้ .addTag('auth') และ .addTag('product') แต่แนะนำให้เปิดใช้
         .addTag('auth')
         .addTag('product')
-        .addBearerAuth() // เพิ่มช่องสำหรับใส่ JWT/Bearer Token
+        .addBearerAuth()
         .build();
 
-    // 4. สร้างเอกสารและตั้งค่า Swagger UI
+
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document); // 'api/docs' คือ URL ที่จะเข้าถึง UI
 
     await app.listen(3000);
+    console.log(' Swagger API docs: http://localhost:3000/api/docs');
 }
 bootstrap();

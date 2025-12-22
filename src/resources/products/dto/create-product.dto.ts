@@ -4,13 +4,13 @@ import { Type, Transform } from 'class-transformer';
 
 export class CreateProductDto {
     @ApiProperty({ description: 'ชื่อผลิตภัณฑ์', })
-    @IsNotEmpty({ message: 'Name must not be empty.' }) // เพิ่ม: ห้ามว่าง
+    @IsNotEmpty({ message: 'Name must not be empty.' }) 
     @IsString({ message: 'Name must be a string.' })
     name: string;
 
     @ApiProperty({
         description: 'คำอธิบายสินค้า (ไม่บังคับ)',
-        required: false, // ระบุใน Swagger ว่าไม่บังคับ
+        required: false, 
     })
     @IsOptional()
     @IsString({ message: 'Description must be a string.' })
@@ -20,7 +20,7 @@ export class CreateProductDto {
         description: 'ราคาสินค้า',
         example: 'Number',
     })
-    @IsNotEmpty({ message: 'Price must not be empty.' }) // เพิ่ม: ห้ามว่าง
+    @IsNotEmpty({ message: 'Price must not be empty.' }) 
     @IsNumber({}, { message: 'Price must be a number.' })
     @Type(() => Number)
     price: number;
@@ -28,9 +28,9 @@ export class CreateProductDto {
     @ApiProperty({
         description: 'จำนวนสินค้าในคลัง',
         example: 'Int',
-        minimum: 0, // แสดงข้อจำกัด @Min(0) ใน Swagger
+        minimum: 0, 
     })
-    @IsNotEmpty({ message: 'Stock must not be empty.' }) // เพิ่ม: ห้ามว่าง
+    @IsNotEmpty({ message: 'Stock must not be empty.' })
     @IsInt()
     @Min(0, { message: "The stock quantity must not be less than 0." })
     @Type(() => Number)

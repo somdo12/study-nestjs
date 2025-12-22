@@ -2,8 +2,13 @@
 // auth version dto-swagger
 
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger'; // นำเข้า ApiProperty
-import { Role } from '@prisma/client'; // สมมติว่า Role คือ 'USER' | 'ADMIN'
+import { ApiProperty } from '@nestjs/swagger';
+
+enum Role {
+    USER = 'USER',
+    ADMIN = 'ADMIN',
+    EDITOR = 'EDITOR'
+}
 
 // --- Register DTO ---
 export class RegisterDto {
@@ -18,7 +23,7 @@ export class RegisterDto {
     @ApiProperty({
         description: 'รหัสผ่าน (ขั้นต่ำ 6 ตัวอักษร)',
         example: 'mysecretpass',
-        minLength: 6, // แสดง MinLength ใน Swagger
+        minLength: 6,
     })
     @IsString({ message: 'password must be is string' })
     @MinLength(6)
@@ -33,9 +38,9 @@ export class RegisterDto {
 
     @ApiProperty({
         description: 'สิทธิ์ของผู้ใช้ (เช่น USER, ADMIN)',
-        required: false, // ตรงกับ @IsOptional()
-        enum: Role, // แสดงตัวเลือก Enum ใน Swagger
-        default: Role.USER, // กำหนดค่าเริ่มต้นถ้ามี
+        required: false,
+        enum: Role,
+        default: Role.USER,
     })
     @IsOptional()
     @IsEnum(Role)
@@ -55,23 +60,21 @@ export class LoginDto {
     @ApiProperty({
         description: 'รหัสผ่านของผู้ใช้',
         example: 'mysecretpass',
-        required: true, // ตรงกับ @IsNotEmpty()
+        required: true,
     })
     @IsString({ message: 'password must be is string' })
     @IsNotEmpty()
     password: string;
 
-    // ส่วนนี้ถูกกำหนดใน Register แต่ไม่จำเป็นสำหรับการ Login
-    // แนะนำให้ตัดออก ถ้า Login API ไม่ได้ใช้
     @ApiProperty({ required: false, description: 'ไม่จำเป็นต้องใส่สำหรับ Login' })
     @IsString({ message: 'name must be is string' })
     @IsOptional()
     name: string;
 
-    // ส่วนนี้ถูกกำหนดใน Register แต่ไม่จำเป็นสำหรับการ Login
-    // แนะนำให้ตัดออก ถ้า Login API ไม่ได้ใช้
     @ApiProperty({ required: false, description: 'ไม่จำเป็นต้องใส่สำหรับ Login' })
     @IsOptional()
     @IsEnum(Role)
     role?: Role
 }
+
+export { Role };

@@ -1,6 +1,6 @@
 // src/product/product.service.ts
 import { Injectable, } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 
 
@@ -29,26 +29,6 @@ export class ProductService {
         });
     }
 
-    // async update(
-    //     id: string,
-    //     data: CreateProductDto,
-    //     imageFile?: Express.Multer.File 
-    // ) {
-    //     const updateData: any = {
-    //         ...data,
-    //         price: Number(data.price),
-    //         stock: Number(data.stock),
-    //     };
-    //     if (imageFile) {
-    //         const imageUrl = `/uploads/${imageFile.filename}`; 
-    //         updateData.image = imageUrl;
-    //     }
-    //     return this.prisma.product.update({
-    //         where: { id },
-    //         data: updateData, 
-    //     });
-    // }
-
     async deleteProduct(id: string) {
         return this.prisma.product.delete({
             where: { id },
@@ -61,13 +41,12 @@ export class ProductService {
             where: { id: productId },
             data: {
                 images: {
-                    push: imageFilename, // เพิ่มรูปเข้า array
+                    push: imageFilename, 
                 },
             },
         });
     }
 
-    // ตั้งรูปหลัก
     async setMainImage(productId: string, imageFilename: string) {
         return await this.prisma.product.update({
             where: { id: productId },

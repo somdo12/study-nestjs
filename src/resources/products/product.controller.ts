@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
-import * as path from 'path';  // ← เพิ่มบรรทัดนี้
+import * as path from 'path';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
@@ -31,7 +31,7 @@ export class ProductController {
     })
     @UseInterceptors(FileInterceptor('image', {
         storage: diskStorage({
-            destination: './uploads/images', // ✅ โฟลเดอร์เก็บภาพ
+            destination: './uploads/images',
             filename: (req, file, callback) => {
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
                 const ext = extname(file.originalname);
@@ -51,7 +51,6 @@ export class ProductController {
 
     @Get()
     async getAllProducts() {
-        // this.logger.log('Fetching all products...');
         const getProduct = await this.productService.findAll()
         this.logger.log(`Successfully retrieved ${getProduct.length} products.`); return getProduct;
     }
