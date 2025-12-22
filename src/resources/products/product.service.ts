@@ -20,9 +20,13 @@ export class ProductService {
             where: { id }
         });
     }
-    // product.service.ts
-    async update(id: string, updateData: Partial<CreateProductDto>) {
+    async update(id: string, updateData: Partial<CreateProductDto>, file?: any) {
         await this.findOne(id);
+        
+        if (file) {
+            updateData.image = file.filename;
+        }
+        
         return await this.prisma.product.update({
             where: { id },
             data: updateData,
