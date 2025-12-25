@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import * as fs from 'fs';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { WinstonLoggerService } from './common/logger/winston-logger.service'; // นำเข้า Service ที่สร้าง
+// import { WinstonLoggerService } from './common/logger/winston-logger.service'; 
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -44,8 +44,8 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document); // 'api/docs' คือ URL ที่จะเข้าถึง UI
-
-    await app.listen(3000);
-    console.log(' Swagger API docs: http://localhost:3000/api/docs');
+    const PORT=8090;
+    await app.listen(PORT);
+    console.log(` Swagger API docs: http://localhost:${[PORT]}/api/docs`);
 }
 bootstrap();

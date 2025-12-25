@@ -7,8 +7,8 @@ import { CreateProductDto } from './dto/create-product.dto';
 @Injectable()
 export class ProductService {
     constructor(private prisma: PrismaService) { }
-    async create(data: CreateProductDto) {
-        return await this.prisma.product.create({ data });
+    async create(createProductDto: CreateProductDto) {
+        return await this.prisma.product.create({ data: createProductDto,  });
     }
 
     async findAll() {
@@ -22,11 +22,11 @@ export class ProductService {
     }
     async update(id: string, updateData: Partial<CreateProductDto>, file?: any) {
         await this.findOne(id);
-        
+
         if (file) {
             updateData.image = file.filename;
         }
-        
+
         return await this.prisma.product.update({
             where: { id },
             data: updateData,
@@ -45,7 +45,7 @@ export class ProductService {
             where: { id: productId },
             data: {
                 images: {
-                    push: imageFilename, 
+                    push: imageFilename,
                 },
             },
         });

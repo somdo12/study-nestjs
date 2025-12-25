@@ -6,7 +6,7 @@ import { WinstonLoggerService } from 'src/common/logger/winston-logger.service';
 
 @Module({
     controllers: [ProductController],
-    providers: [ProductService, PrismaService,WinstonLoggerService],
+    providers: [ProductService, PrismaService, WinstonLoggerService],
 
 })
 export class ProductModule { }

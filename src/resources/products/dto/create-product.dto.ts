@@ -3,13 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type, Transform } from 'class-transformer';
 
 export class CreateProductDto {
-    @ApiProperty({ description: 'ชื่อผลิตภัณฑ์', })
     @IsNotEmpty({ message: 'Name must not be empty.' }) 
     @IsString({ message: 'Name must be a string.' })
     name: string;
 
     @ApiProperty({
-        description: 'คำอธิบายสินค้า (ไม่บังคับ)',
         required: false, 
     })
     @IsOptional()
@@ -17,7 +15,6 @@ export class CreateProductDto {
     description?: string;
 
     @ApiProperty({
-        description: 'ราคาสินค้า',
         example: 'Number',
     })
     @IsNotEmpty({ message: 'Price must not be empty.' }) 
@@ -26,7 +23,6 @@ export class CreateProductDto {
     price: number;
 
     @ApiProperty({
-        description: 'จำนวนสินค้าในคลัง',
         example: 'Int',
         minimum: 0, 
     })
